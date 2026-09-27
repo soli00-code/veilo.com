@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications — Veilo</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .page-pad { padding: var(--sp-6) var(--sp-6) var(--sp-8); max-width: 640px; }
+  @media (max-width: 900px) { .page-pad { padding: var(--sp-5) var(--sp-4) var(--sp-8); } }
+  .notif-group-label { font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); margin: var(--sp-6) 0 var(--sp-3); }
+  .notif-row { display: flex; align-items: flex-start; gap: var(--sp-4); padding: var(--sp-4); border-radius: var(--r-md); }
+  .notif-row.is-unread { background: #F4EBFF; }
+  .notif-icon { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .notif-icon svg { width: 20px; height: 20px; }
+  .notif-icon.mint { background: rgba(23,214,166,0.15); color: #0C8F70; }
+  .notif-icon.violet { background: rgba(122,61,245,0.14); color: var(--violet-deep); }
+  .notif-icon.pink { background: rgba(255,62,124,0.14); color: #C4306B; }
+  .notif-icon.sun { background: rgba(255,201,60,0.22); color: #8A6300; }
+  .notif-body .notif-text { font-size: 0.92rem; }
+  .notif-body .notif-time { font-size: 0.78rem; color: var(--ink-soft); margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="rail">
+    <a href="index.html" class="rail-brand"><svg width="30" height="30" viewBox="0 0 34 34"><defs><linearGradient id="bgr5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC93C"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bgr5)"/></svg><span>Veilo</span></a>
+    <nav class="rail-nav">
+      <a class="rail-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+      <a class="rail-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages<span class="dot"></span></a>
+      <a class="rail-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+      <a class="rail-link is-active" href="notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Notifications</a>
+      <a class="rail-link" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+      <a class="rail-link" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>Settings</a>
+    </nav>
+    <div class="rail-foot">
+      <div class="blob blob-1 blob-sm"><span class="blob-glyph">QM</span></div>
+      <div><div style="font-weight:700; font-size:0.9rem;">Quiet Marigold</div><a href="login.html" style="font-size:0.75rem; color:rgba(255,255,255,0.6);">Log out</a></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar"><span class="heading">Notifications</span><span></span></div>
+
+    <div class="page-pad">
+      <h1 class="display-3">Notifications</h1>
+
+      <div class="notif-group-label">New</div>
+      <a class="notif-row is-unread" href="chat.html">
+        <div class="notif-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+        <div class="notif-body">
+          <div class="notif-text"><b>New match:</b> Bold Static — 85% resonance</div>
+          <div class="notif-time">1 hour ago</div>
+        </div>
+      </a>
+      <a class="notif-row is-unread" href="chat.html">
+        <div class="notif-icon mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4V5Z"/></svg></div>
+        <div class="notif-body">
+          <div class="notif-text"><b>Solar Whistle</b> sent you a voice message</div>
+          <div class="notif-time">2 hours ago</div>
+        </div>
+      </a>
+
+      <div class="notif-group-label">Earlier</div>
+      <a class="notif-row" href="feed.html">
+        <div class="notif-icon pink"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg></div>
+        <div class="notif-body">
+          <div class="notif-text">14 people resonated with your post</div>
+          <div class="notif-time">Yesterday</div>
+        </div>
+      </a>
+      <a class="notif-row" href="feed.html">
+        <div class="notif-icon violet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4V5Z"/></svg></div>
+        <div class="notif-body">
+          <div class="notif-text"><b>Harbor Ridge</b> commented on your post</div>
+          <div class="notif-time">Yesterday</div>
+        </div>
+      </a>
+      <a class="notif-row" href="settings.html">
+        <div class="notif-icon sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="notif-body">
+          <div class="notif-text">Your report was reviewed — thanks for flagging it</div>
+          <div class="notif-time">3 days ago</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <a class="tab-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+    <a class="tab-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages<span class="dot"></span></a>
+    <a class="tab-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+    <a class="tab-link" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+  </nav>
+</div>
+</body>
+</html>

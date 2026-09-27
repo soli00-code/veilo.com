@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feed — Veilo</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .page-pad { padding: var(--sp-6) var(--sp-6) var(--sp-8); max-width: 640px; }
+  @media (max-width: 900px) { .page-pad { padding: var(--sp-5) var(--sp-4) var(--sp-8); } }
+  .composer-bar { display: flex; align-items: center; gap: var(--sp-3); margin: var(--sp-5) 0 var(--sp-6); }
+  .composer-bar button.fake-input { flex: 1; text-align: left; background: var(--paper-raised); border: 2px solid var(--line-deep); border-radius: var(--r-full); padding: 13px 20px; color: var(--ink-soft); font-size: 0.95rem; }
+
+  .post { padding: var(--sp-5); border-bottom: 1px solid var(--line); }
+  .post-head { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3); }
+  .post-name { font-weight: 700; font-size: 0.92rem; }
+  .post-time { font-size: 0.78rem; color: var(--ink-soft); }
+  .post-text { font-size: 0.98rem; line-height: 1.55; }
+  .post-actions { display: flex; gap: var(--sp-5); margin-top: var(--sp-4); }
+  .post-action { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 700; color: var(--ink-soft); background: none; border: none; }
+  .post-action svg { width: 18px; height: 18px; }
+  .post-action.is-active { color: var(--pink); }
+  .post-action:hover { color: var(--ink); }
+
+  .char-count { text-align: right; font-size: 0.78rem; color: var(--ink-soft); margin-top: var(--sp-2); }
+  .comment-item { display: flex; gap: 10px; margin-bottom: var(--sp-4); }
+  .comment-item .bubble { background: var(--paper); border: 2px solid var(--line); }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="rail">
+    <a href="index.html" class="rail-brand"><svg width="30" height="30" viewBox="0 0 34 34"><defs><linearGradient id="bgr3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC93C"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bgr3)"/></svg><span>Veilo</span></a>
+    <nav class="rail-nav">
+      <a class="rail-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+      <a class="rail-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages<span class="dot"></span></a>
+      <a class="rail-link is-active" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+      <a class="rail-link" href="notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Notifications</a>
+      <a class="rail-link" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+      <a class="rail-link" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>Settings</a>
+    </nav>
+    <div class="rail-foot">
+      <div class="blob blob-1 blob-sm"><span class="blob-glyph">QM</span></div>
+      <div><div style="font-weight:700; font-size:0.9rem;">Quiet Marigold</div><a href="login.html" style="font-size:0.75rem; color:rgba(255,255,255,0.6);">Log out</a></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar"><span class="heading">Feed</span><span></span></div>
+
+    <div class="page-pad">
+      <h1 class="display-3">Feed</h1>
+      <p class="body" style="margin-top:4px;">Words only, from everyone in the pool — not just your match.</p>
+
+      <div class="composer-bar">
+        <div class="blob blob-md blob-1"><span class="blob-glyph" style="font-size:1rem;">QM</span></div>
+        <button class="fake-input" onclick="openModal('postModal')">Share a thought…</button>
+      </div>
+
+      <div class="feed-list">
+        <div class="post">
+          <div class="post-head">
+            <div class="blob blob-sm blob-4"><span class="blob-glyph" style="font-size:0.68rem;">HR</span></div>
+            <div>
+              <div class="post-name">Harbor Ridge</div>
+              <div class="post-time">38m ago</div>
+            </div>
+          </div>
+          <p class="post-text">unpopular opinion: a good voice message is worth ten perfect texts. you can hear someone deciding what to say.</p>
+          <div class="post-actions">
+            <button class="post-action is-active"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>142</button>
+            <button class="post-action" onclick="openModal('commentsModal')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>23</button>
+          </div>
+        </div>
+
+        <div class="post">
+          <div class="post-head">
+            <div class="blob blob-sm blob-6"><span class="blob-glyph" style="font-size:0.68rem;">EC</span></div>
+            <div>
+              <div class="post-name">Ember Compass</div>
+              <div class="post-time">2h ago</div>
+            </div>
+          </div>
+          <p class="post-text">three matches in and I've realized I keep describing my job like it's a personality. working on saying less about the title, more about the actual me.</p>
+          <div class="post-actions">
+            <button class="post-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>67</button>
+            <button class="post-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>9</button>
+          </div>
+        </div>
+
+        <div class="post">
+          <div class="post-head">
+            <div class="blob blob-sm blob-3"><span class="blob-glyph" style="font-size:0.68rem;">SW</span></div>
+            <div>
+              <div class="post-name">Solar Whistle</div>
+              <div class="post-time">5h ago</div>
+            </div>
+          </div>
+          <p class="post-text">asked my match what they thought I looked like based on how I text. they said "like someone who alphabetizes their spice rack." they were correct and I'm shaken.</p>
+          <div class="post-actions">
+            <button class="post-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>301</button>
+            <button class="post-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>41</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <a class="tab-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+    <a class="tab-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages<span class="dot"></span></a>
+    <a class="tab-link is-active" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+    <a class="tab-link" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+  </nav>
+</div>
+
+<!-- Create post modal -->
+<div class="overlay" id="postModal">
+  <div class="modal">
+    <h3 class="display-3" style="font-size:1.3rem;">Share a thought</h3>
+    <div class="field" style="margin-top:var(--sp-5); margin-bottom:0;">
+      <textarea class="textarea" id="postText" maxlength="280" placeholder="Text only — no links to photos or off-app profiles" oninput="document.getElementById('charCount').textContent = 280 - this.value.length"></textarea>
+    </div>
+    <div class="char-count"><span id="charCount">280</span> characters left</div>
+    <div style="display:flex; gap:var(--sp-3); margin-top:var(--sp-5);">
+      <button class="btn btn-secondary btn-block" onclick="closeModal('postModal')">Cancel</button>
+      <button class="btn btn-primary btn-block" onclick="closeModal('postModal')">Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- Comments modal -->
+<div class="overlay" id="commentsModal">
+  <div class="modal" style="max-width:460px;">
+    <h3 class="display-3" style="font-size:1.2rem; margin-bottom:var(--sp-5);">23 comments</h3>
+    <div class="comment-item">
+      <div class="blob blob-sm blob-2"><span class="blob-glyph" style="font-size:0.6rem;">CE</span></div>
+      <div class="bubble" style="max-width:none;">this is why I stopped opening with "so what do you do"</div>
+    </div>
+    <div class="comment-item">
+      <div class="blob blob-sm blob-5"><span class="blob-glyph" style="font-size:0.6rem;">BS</span></div>
+      <div class="bubble" style="max-width:none;">the amount of restraint it takes not to send a voice memo mid-sentence</div>
+    </div>
+    <div class="field" style="margin-top:var(--sp-4); margin-bottom:0;">
+      <input class="input" placeholder="Add a comment">
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Messages — Veilo</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .page-pad { padding: var(--sp-6) var(--sp-6) var(--sp-8); max-width: 720px; }
+  @media (max-width: 900px) { .page-pad { padding: var(--sp-5) var(--sp-4) var(--sp-8); } }
+  .convo-list { margin-top: var(--sp-5); }
+  .convo-row {
+    display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4);
+    border-radius: var(--r-lg); transition: background 0.15s var(--ease);
+  }
+  .convo-row:hover { background: var(--paper-raised); }
+  .convo-row.is-ended { opacity: 0.55; }
+  .convo-body { flex: 1; min-width: 0; }
+  .convo-top { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+  .convo-name { font-weight: 700; }
+  .convo-preview { display: flex; align-items: center; gap: 6px; color: var(--ink-soft); font-size: 0.88rem; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .convo-preview svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--mint); }
+  .unread-pip { width: 10px; height: 10px; border-radius: 50%; background: var(--pink); flex-shrink: 0; }
+  .search-wrap { position: relative; }
+  .search-wrap svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--ink-soft); }
+  .search-wrap input { padding-left: 46px; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="rail">
+    <a href="index.html" class="rail-brand"><svg width="30" height="30" viewBox="0 0 34 34"><defs><linearGradient id="bgr2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC93C"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bgr2)"/></svg><span>Veilo</span></a>
+    <nav class="rail-nav">
+      <a class="rail-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+      <a class="rail-link is-active" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages</a>
+      <a class="rail-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+      <a class="rail-link" href="notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Notifications</a>
+      <a class="rail-link" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+      <a class="rail-link" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>Settings</a>
+    </nav>
+    <div class="rail-foot">
+      <div class="blob blob-1 blob-sm"><span class="blob-glyph">QM</span></div>
+      <div><div style="font-weight:700; font-size:0.9rem;">Quiet Marigold</div><a href="login.html" style="font-size:0.75rem; color:rgba(255,255,255,0.6);">Log out</a></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar"><span class="heading">Messages</span><span></span></div>
+
+    <div class="page-pad">
+      <h1 class="display-3">Messages</h1>
+      <div class="search-wrap" style="margin-top:var(--sp-5);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input class="input" placeholder="Search conversations">
+      </div>
+
+      <div class="convo-list">
+        <a class="convo-row" href="chat.html">
+          <div class="blob blob-md blob-3"><span class="blob-glyph">SW</span></div>
+          <div class="convo-body">
+            <div class="convo-top">
+              <span class="convo-name">Solar Whistle</span>
+              <span class="micro">2m</span>
+            </div>
+            <div class="convo-preview">okay but what's your actual opinion on pineapple on pizza</div>
+          </div>
+          <div class="unread-pip"></div>
+        </a>
+
+        <a class="convo-row" href="chat.html">
+          <div class="blob blob-md blob-5"><span class="blob-glyph">BS</span></div>
+          <div class="convo-body">
+            <div class="convo-top">
+              <span class="convo-name">Bold Static</span>
+              <span class="micro">1h</span>
+            </div>
+            <div class="convo-preview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a7 7 0 0 1-14 0"/></svg> Voice message · 0:18</div>
+          </div>
+        </a>
+
+        <a class="convo-row is-ended" href="chat.html">
+          <div class="blob blob-md blob-2"><span class="blob-glyph">CE</span></div>
+          <div class="convo-body">
+            <div class="convo-top">
+              <span class="convo-name">Curious Echo</span>
+              <span class="micro">Unmatched</span>
+            </div>
+            <div class="convo-preview">Take care! Good luck out there.</div>
+          </div>
+        </a>
+
+        <a class="convo-row is-ended" href="chat.html">
+          <div class="blob blob-md blob-6"><span class="blob-glyph">WC</span></div>
+          <div class="convo-body">
+            <div class="convo-top">
+              <span class="convo-name">Wandering Comet</span>
+              <span class="micro">Unmatched</span>
+            </div>
+            <div class="convo-preview">this was fun, just not the right fit I think</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <a class="tab-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+    <a class="tab-link is-active" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages</a>
+    <a class="tab-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+    <a class="tab-link" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+  </nav>
+</div>
+</body>
+</html>

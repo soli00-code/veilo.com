@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veilo — Meet the person before the picture</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .nav-public { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-5) 0; }
+  .brand-mark { display: flex; align-items: center; gap: 10px; }
+  .brand-mark span { font-family: var(--font-display); font-weight: 600; font-size: 1.3rem; }
+  .nav-links { display: flex; align-items: center; gap: var(--sp-6); }
+  .nav-links a.navlink { font-weight: 600; font-size: 0.95rem; color: var(--ink-soft); }
+  .nav-links a.navlink:hover { color: var(--ink); }
+  .nav-cta { display: flex; gap: var(--sp-3); align-items: center; }
+  @media (max-width: 700px) { .nav-links a.navlink { display: none; } }
+
+  .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: var(--sp-8); align-items: center; padding: var(--sp-7) 0 var(--sp-9); }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; padding-top: var(--sp-5); padding-bottom: var(--sp-7); } }
+  .hero-chips { display: flex; gap: var(--sp-2); margin: var(--sp-5) 0 var(--sp-6); flex-wrap: wrap; }
+  .hero-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+
+  .hero-visual { position: relative; height: 420px; }
+  @media (max-width: 900px) { .hero-visual { height: 320px; margin-top: var(--sp-6); } }
+  .hero-visual .blob { position: absolute; }
+  .hero-visual .float-card {
+    position: absolute; background: var(--paper-raised); border-radius: var(--r-lg); padding: var(--sp-4) var(--sp-5);
+    box-shadow: var(--shadow-pop); display: flex; align-items: center; gap: var(--sp-4); z-index: 3;
+  }
+
+  .steps-path { position: relative; padding: var(--sp-6) 0; }
+  .steps-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-6); position: relative; z-index: 1; }
+  @media (max-width: 800px) { .steps-row { grid-template-columns: 1fr; } }
+  .step-num { width: 52px; height: 52px; border-radius: 61% 39% 52% 48% / 45% 55% 45% 55%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 600; color: #fff; font-size: 1.2rem; margin-bottom: var(--sp-4); }
+
+  .boundaries { background: var(--ink); color: #fff; border-radius: var(--r-lg); padding: var(--sp-8) var(--sp-7); }
+  @media (max-width: 700px) { .boundaries { padding: var(--sp-6) var(--sp-5); } }
+  .boundary-line { display: flex; align-items: baseline; gap: var(--sp-4); padding: var(--sp-4) 0; border-bottom: 1px solid rgba(255,255,255,0.14); }
+  .boundary-line:last-child { border-bottom: none; }
+  .boundary-line .tag { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.4rem, 3vw, 2rem); }
+  .boundary-line .desc { color: rgba(255,255,255,0.68); font-size: 0.95rem; }
+
+  .safety-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5); }
+  @media (max-width: 800px) { .safety-grid { grid-template-columns: 1fr; } }
+  .safety-item svg { width: 30px; height: 30px; color: var(--violet); margin-bottom: var(--sp-3); }
+
+  .cta-band { background: var(--gradient-signal); border-radius: var(--r-lg); padding: var(--sp-8) var(--sp-6); text-align: center; color: #fff; }
+  .cta-band .display-2 { color: #fff; }
+
+  footer { padding: var(--sp-7) 0 var(--sp-8); }
+  .foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--sp-4); }
+  .foot-links { display: flex; gap: var(--sp-5); flex-wrap: wrap; }
+  .foot-links a { font-size: 0.85rem; color: var(--ink-soft); font-weight: 600; }
+  .foot-links a:hover { color: var(--ink); }
+
+  section { padding: var(--sp-8) 0; }
+  .section-head { max-width: 640px; margin-bottom: var(--sp-7); }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<div class="container">
+  <nav class="nav-public">
+    <div class="brand-mark">
+      <svg width="34" height="34" viewBox="0 0 34 34"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7A3DF5"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bg1)"/></svg>
+      <span>Veilo</span>
+    </div>
+    <div class="nav-links">
+      <a class="navlink" href="#how">How it works</a>
+      <a class="navlink" href="#safety">Safety</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-ghost btn-sm" href="login.html">Log in</a>
+      <a class="btn btn-primary btn-sm" href="register.html">Get started</a>
+    </div>
+  </nav>
+</div>
+
+<main id="main">
+  <div class="container">
+    <section class="hero" style="padding-top:0;">
+      <div>
+        <h1 class="display-1">Meet the person<br>before the picture.</h1>
+        <p class="body-lg" style="margin-top:var(--sp-5);">Veilo matches you by how you think and talk, not how you look. Every conversation starts with words and voice — nothing else.</p>
+        <div class="hero-chips">
+          <span class="chip chip-static"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l18 18M10.5 5.2A10 10 0 0 1 21 12s-1.5 3-4.7 5.1M6.5 6.7C4 8.5 3 12 3 12s3.5 7 9 7c1.2 0 2.3-.2 3.3-.6"/></svg> No photos, ever</span>
+          <span class="chip chip-static"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.4 2.1L8 10.1a16 16 0 0 0 6 6l1.3-1.4a2 2 0 0 1 2.1-.4c1 .3 2 .5 3 .7a2 2 0 0 1 1.7 2Z"/><path d="M3 3l18 18"/></svg> No calls</span>
+        </div>
+        <div class="hero-actions">
+          <a href="register.html" class="btn btn-primary">Create your Veilo</a>
+          <a href="#how" class="btn btn-secondary">See how matching works</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="blob blob-1" style="width:150px;height:150px;top:0;right:30px;opacity:0.95;"></div>
+        <div class="blob blob-4" style="width:90px;height:90px;bottom:40px;right:0;"></div>
+        <div class="blob blob-3" style="width:70px;height:70px;top:60px;left:0;"></div>
+        <div class="float-card" style="top:140px;left:10px;">
+          <div class="compat-ring" style="width:56px;height:56px;">
+            <svg viewBox="0 0 84 84"><defs><linearGradient id="ringGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7A3DF5"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><circle class="track" cx="42" cy="42" r="36"/><circle class="fill" cx="42" cy="42" r="36" stroke-dasharray="226" stroke-dashoffset="41"/></svg>
+            <div class="num" style="font-size:0.85rem;">82%</div>
+          </div>
+          <div>
+            <div style="font-weight:700; font-size:0.9rem;">New match found</div>
+            <div class="micro">Quiet Marigold · resonance 82%</div>
+          </div>
+        </div>
+        <div class="float-card" style="bottom:0; right:20px; padding:12px 16px;">
+          <div class="blob blob-2 blob-sm"></div>
+          <div class="micro" style="max-width:160px;">"okay wait, you also think pineapple belongs on pizza??"</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="section-head">
+        <h2 class="display-2">Three steps. Zero swiping.</h2>
+        <p class="body-lg" style="margin-top:var(--sp-3);">There's no feed of faces to scroll. You show up, answer honestly, and Veilo does the introducing.</p>
+      </div>
+      <div class="steps-path">
+        <div class="steps-row">
+          <div>
+            <div class="step-num blob-1">1</div>
+            <h3 class="heading">Build your anonymous self</h3>
+            <p class="body" style="margin-top:var(--sp-2);">Pick a blob, get a nickname, answer a few prompts about how you actually are — not how you look.</p>
+          </div>
+          <div>
+            <div class="step-num blob-3">2</div>
+            <h3 class="heading">Get matched, not browsed</h3>
+            <p class="body" style="margin-top:var(--sp-2);">Our compatibility engine pairs you with one person at a time based on your answers. No swiping, no scrolling strangers.</p>
+          </div>
+          <div>
+            <div class="step-num blob-4">3</div>
+            <h3 class="heading">Talk it out</h3>
+            <p class="body" style="margin-top:var(--sp-2);">Text or send a voice note. Keep talking as long as it's good — identity stays out of it, always.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="boundaries">
+        <h2 class="display-3" style="margin-bottom:var(--sp-5);">What you won't find here</h2>
+        <div class="boundary-line">
+          <div class="tag">Photos</div>
+          <div class="desc">Not on your profile, not in a message. There's nothing to send.</div>
+        </div>
+        <div class="boundary-line">
+          <div class="tag">Video</div>
+          <div class="desc">No clips, no camera roll, no video calls.</div>
+        </div>
+        <div class="boundary-line">
+          <div class="tag">Phone &amp; video calls</div>
+          <div class="desc">Conversation happens in text and voice messages only — on your own time.</div>
+        </div>
+        <div class="boundary-line">
+          <div class="tag">A discover feed</div>
+          <div class="desc">You never browse people. Veilo brings one match to you.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="safety">
+      <div class="section-head">
+        <h2 class="display-2">Anonymous doesn't mean unsafe.</h2>
+        <p class="body-lg" style="margin-top:var(--sp-3);">Every part of Veilo is built so you're in control of what you share, and how fast.</p>
+      </div>
+      <div class="safety-grid">
+        <div class="safety-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg>
+          <h3 class="heading">Block and report, always one tap away</h3>
+          <p class="body-sm" style="margin-top:var(--sp-2);">Any conversation can be ended and reported instantly, no explanation owed.</p>
+        </div>
+        <div class="safety-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          <h3 class="heading">Your identity is never on the table</h3>
+          <p class="body-sm" style="margin-top:var(--sp-2);">There's no upload button for a face or a name, so there's nothing to accidentally reveal.</p>
+        </div>
+        <div class="safety-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+          <h3 class="heading">One match at a time</h3>
+          <p class="body-sm" style="margin-top:var(--sp-2);">No lineup of strangers waiting. If it's not working out, unmatch and Veilo finds the next one.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="cta-band">
+        <h2 class="display-2">Your next conversation is a few questions away.</h2>
+        <div style="margin-top:var(--sp-6);">
+          <a href="register.html" class="btn" style="background:#fff; color:var(--violet-deep); box-shadow:var(--shadow-pop);">Create your Veilo</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-row">
+      <div class="brand-mark">
+        <svg width="26" height="26" viewBox="0 0 34 34"><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bg1)"/></svg>
+        <span class="body-sm" style="font-weight:700; color:var(--ink);">Veilo</span>
+      </div>
+      <div class="foot-links">
+        <a href="#safety">Safety center</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="micro">© 2026 Veilo</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

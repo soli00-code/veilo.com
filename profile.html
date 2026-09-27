@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your profile — Veilo</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .page-pad { padding: var(--sp-6) var(--sp-6) var(--sp-8); max-width: 640px; }
+  @media (max-width: 900px) { .page-pad { padding: var(--sp-5) var(--sp-4) var(--sp-8); } }
+  .profile-head { display: flex; align-items: center; gap: var(--sp-5); }
+  .profile-head .grow { flex: 1; }
+  .stat-row { display: flex; gap: var(--sp-6); margin-top: var(--sp-5); }
+  .stat-row .stat b { display: block; font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
+  .stat-row .stat span { font-size: 0.78rem; color: var(--ink-soft); }
+
+  .section-title { display: flex; align-items: center; justify-content: space-between; margin: var(--sp-7) 0 var(--sp-4); }
+  .section-title button { font-size: 0.85rem; font-weight: 700; color: var(--violet); background: none; border: none; display: flex; align-items: center; gap: 6px; }
+
+  .prompt-card { padding: var(--sp-5); margin-bottom: var(--sp-4); }
+  .prompt-card .q { font-family: var(--font-display); font-weight: 600; font-size: 1rem; margin-bottom: var(--sp-2); }
+  .interest-wrap { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="rail">
+    <a href="index.html" class="rail-brand"><svg width="30" height="30" viewBox="0 0 34 34"><defs><linearGradient id="bgr4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC93C"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bgr4)"/></svg><span>Veilo</span></a>
+    <nav class="rail-nav">
+      <a class="rail-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+      <a class="rail-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages<span class="dot"></span></a>
+      <a class="rail-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+      <a class="rail-link" href="notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Notifications</a>
+      <a class="rail-link is-active" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+      <a class="rail-link" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>Settings</a>
+    </nav>
+    <div class="rail-foot">
+      <div class="blob blob-1 blob-sm"><span class="blob-glyph">QM</span></div>
+      <div><div style="font-weight:700; font-size:0.9rem;">Quiet Marigold</div><a href="login.html" style="font-size:0.75rem; color:rgba(255,255,255,0.6);">Log out</a></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar"><span class="heading">Profile</span>
+      <a href="settings.html" class="btn btn-icon btn-ghost" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg></a>
+    </div>
+
+    <div class="page-pad">
+      <div class="profile-head">
+        <div class="blob blob-xl blob-1"><span class="blob-glyph">QM</span></div>
+        <div class="grow">
+          <h1 class="display-3">Quiet Marigold</h1>
+          <p class="body-sm">This is exactly what everyone else on Veilo sees</p>
+          <div style="margin-top:var(--sp-3);">
+            <button class="btn btn-secondary btn-sm" onclick="openModal('editIdentityModal')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              Edit nickname &amp; color
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><b>4</b><span>matches so far</span></div>
+        <div class="stat"><b>112</b><span>days on Veilo</span></div>
+        <div class="stat"><b>85%</b><span>best resonance</span></div>
+      </div>
+
+      <div class="section-title"><h2 class="heading" style="font-size:1.05rem;">About</h2></div>
+      <div class="field" style="margin-bottom:0;">
+        <textarea class="textarea" placeholder="A few lines about you — no need to sell yourself, just be accurate.">Perpetually mid-podcast. Will absolutely out-stubborn you in a board game. Looking for someone who texts back like a person, not a group chat.</textarea>
+      </div>
+
+      <div class="section-title"><h2 class="heading" style="font-size:1.05rem;">Interests</h2></div>
+      <div class="interest-wrap">
+        <span class="chip is-selected">Board games</span>
+        <span class="chip is-selected">Slow mornings</span>
+        <span class="chip is-selected">True crime podcasts</span>
+        <span class="chip is-selected">Cooking badly on purpose</span>
+        <span class="chip">+ Add</span>
+      </div>
+
+      <div class="section-title">
+        <h2 class="heading" style="font-size:1.05rem;">Your prompts</h2>
+        <button><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit</button>
+      </div>
+      <div class="card prompt-card">
+        <div class="q">A perfect Saturday looks like</div>
+        <p class="body">Farmers market, a long walk with no destination, then losing badly at trivia night.</p>
+      </div>
+      <div class="card prompt-card">
+        <div class="q">I'm weirdly competitive about</div>
+        <p class="body">Parallel parking. Don't ask.</p>
+      </div>
+
+      <div class="section-title"><h2 class="heading" style="font-size:1.05rem;">Compatibility profile</h2></div>
+      <div class="card card-flat" style="display:flex; align-items:center; justify-content:space-between; gap:var(--sp-4);">
+        <div>
+          <div style="font-weight:700;">Last taken 47 days ago</div>
+          <div class="body-sm">Retaking it refines who Veilo matches you with next.</div>
+        </div>
+        <a href="register.html" class="btn btn-secondary btn-sm" style="flex-shrink:0;">Retake</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <a class="tab-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+    <a class="tab-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages<span class="dot"></span></a>
+    <a class="tab-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+    <a class="tab-link is-active" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+  </nav>
+</div>
+
+<div class="overlay" id="editIdentityModal">
+  <div class="modal">
+    <h3 class="display-3" style="font-size:1.3rem; margin-bottom:var(--sp-5);">Edit your identity</h3>
+    <div class="identity-preview" style="display:flex; align-items:center; gap:var(--sp-4); margin-bottom:var(--sp-5);">
+      <div class="blob blob-lg blob-1" id="modalBlob"><span class="blob-glyph">QM</span></div>
+      <button class="btn btn-icon btn-secondary" aria-label="Shuffle nickname" onclick="alert('New nickname generated (demo)')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+      </button>
+    </div>
+    <p class="body-sm" style="margin-bottom:var(--sp-5);">Changing your nickname or color mid-conversation might confuse an active match — they'll see a note that you've updated your identity.</p>
+    <div style="display:flex; gap:var(--sp-3);">
+      <button class="btn btn-secondary btn-block" onclick="closeModal('editIdentityModal')">Cancel</button>
+      <button class="btn btn-primary btn-block" onclick="closeModal('editIdentityModal')">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

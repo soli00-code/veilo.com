@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your profile — Veilo</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  .page-pad { padding: var(--sp-6) var(--sp-6) var(--sp-8); max-width: 640px; }
+  @media (max-width: 900px) { .page-pad { padding: var(--sp-5) var(--sp-4) var(--sp-8); } }
+  .profile-head { display: flex; align-items: center; gap: var(--sp-5); }
+  .profile-head .grow { flex: 1; }
+  .stat-row { display: flex; gap: var(--sp-6); margin-top: var(--sp-5); }
+  .stat-row .stat b { display: block; font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
+  .stat-row .stat span { font-size: 0.78rem; color: var(--ink-soft); }
+
+  .section-title { display: flex; align-items: center; justify-content: space-between; margin: var(--sp-7) 0 var(--sp-4); }
+  .section-title button { font-size: 0.85rem; font-weight: 700; color: var(--violet); background: none; border: none; display: flex; align-items: center; gap: 6px; }
+
+  .prompt-card { padding: var(--sp-5); margin-bottom: var(--sp-4); position: relative; }
+  .prompt-card .q { font-family: var(--font-display); font-weight: 600; font-size: 1rem; margin-bottom: var(--sp-2); padding-right: 28px; }
+  .prompt-card .remove-prompt { position: absolute; top: var(--sp-4); right: var(--sp-4); background: none; border: none; color: var(--ink-soft); }
+  .interest-wrap { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+  .interest-wrap .chip.removable { cursor: pointer; }
+
+  .share-card { display: flex; gap: var(--sp-6); align-items: center; flex-wrap: wrap; }
+  .share-qr { width: 140px; height: 140px; border-radius: var(--r-md); border: 2px solid var(--line-deep); flex-shrink: 0; }
+  .share-link-row { display: flex; gap: 8px; }
+  .share-link-row input { flex: 1; font-family: monospace; font-size: 0.82rem; }
+
+  .aura-grid-sm { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: var(--sp-4); }
+  .aura-swatch-sm { aspect-ratio: 1; border-radius: 50%; cursor: pointer; border: 3px solid transparent; }
+  .aura-swatch-sm.is-selected { border-color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="rail">
+    <a href="index.html" class="rail-brand"><svg width="30" height="30" viewBox="0 0 34 34"><defs><linearGradient id="bgr4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC93C"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bgr4)"/></svg><span>Veilo</span></a>
+    <nav class="rail-nav">
+      <a class="rail-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+      <a class="rail-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages</a>
+      <a class="rail-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+      <a class="rail-link" href="notifications.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>Notifications</a>
+      <a class="rail-link is-active" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+      <a class="rail-link" href="settings.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>Settings</a>
+    </nav>
+    <div class="rail-foot">
+      <div class="blob blob-1 blob-sm" data-me="blob"><span class="blob-glyph" data-me="glyph">QM</span></div>
+      <div><div style="font-weight:700; font-size:0.9rem;" data-me="nickname">Loading…</div><a href="#" id="logoutLink" style="font-size:0.75rem; color:rgba(255,255,255,0.6);">Log out</a></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar"><span class="heading">Profile</span>
+      <a href="settings.html" class="btn btn-icon btn-ghost" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg></a>
+    </div>
+
+    <div class="page-pad" id="pageContent">
+      <div class="profile-head">
+        <div class="blob blob-xl" id="headBlob"><span class="blob-glyph" id="headGlyph"></span></div>
+        <div class="grow">
+          <h1 class="display-3" id="headName"></h1>
+          <p class="body-sm">This is exactly what everyone else on Veilo sees</p>
+          <div style="margin-top:var(--sp-3);">
+            <button class="btn btn-secondary btn-sm" onclick="openModal('editIdentityModal')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+              Edit nickname &amp; color
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat"><b id="statMatches">–</b><span>matches so far</span></div>
+        <div class="stat"><b id="statDays">–</b><span>days on Veilo</span></div>
+        <div class="stat"><b id="statBest">–</b><span>best resonance</span></div>
+      </div>
+
+      <div class="section-title"><h2 class="heading" style="font-size:1.05rem;">Share your profile</h2></div>
+      <div class="card share-card">
+        <img class="share-qr" id="shareQr" alt="QR code linking to your Veilo profile">
+        <div style="flex:1; min-width:200px;">
+          <p class="body-sm" style="margin-bottom:var(--sp-3);">Anyone who scans this or opens the link can see your anonymous profile and start a chat directly with you — no algorithm wait. They'll need to be logged in to Veilo.</p>
+          <div class="share-link-row">
+            <input class="input" id="shareLinkInput" readonly>
+            <button class="btn btn-secondary btn-sm" id="copyLinkBtn">Copy</button>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:var(--sp-2); padding-left:0;" id="regenCodeBtn">Generate a new link (invalidates the old one)</button>
+        </div>
+      </div>
+
+      <div class="section-title"><h2 class="heading" style="font-size:1.05rem;">About</h2></div>
+      <div class="field" style="margin-bottom:8px;">
+        <textarea class="textarea" id="bioInput" maxlength="500" placeholder="A few lines about you — no need to sell yourself, just be accurate."></textarea>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="saveBioBtn">Save about</button>
+
+      <div class="section-title"><h2 class="heading" style="font-size:1.05rem;">Interests</h2></div>
+      <div class="interest-wrap" id="interestWrap"></div>
+
+      <div class="section-title">
+        <h2 class="heading" style="font-size:1.05rem;">Your prompts</h2>
+        <button id="addPromptBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add
+        </button>
+      </div>
+      <div id="promptsList"></div>
+
+      <div class="section-title"><h2 class="heading" style="font-size:1.05rem;">Compatibility profile</h2></div>
+      <div class="card card-flat" style="display:flex; align-items:center; justify-content:space-between; gap:var(--sp-4);">
+        <div>
+          <div style="font-weight:700;" id="quizStatus">Loading…</div>
+          <div class="body-sm">Retaking it refines who Veilo matches you with next.</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" style="flex-shrink:0;" onclick="openModal('quizModal')">Retake</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="tabbar">
+    <a class="tab-link" href="home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>Home</a>
+    <a class="tab-link" href="messages.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5Z"/></svg>Messages</a>
+    <a class="tab-link" href="feed.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Feed</a>
+    <a class="tab-link is-active" href="profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</a>
+  </nav>
+</div>
+
+<div class="overlay" id="editIdentityModal">
+  <div class="modal">
+    <h3 class="display-3" style="font-size:1.3rem; margin-bottom:var(--sp-5);">Edit your identity</h3>
+    <div class="identity-preview" style="display:flex; align-items:center; gap:var(--sp-4); margin-bottom:var(--sp-2);">
+      <div class="blob blob-lg" id="modalBlob"><span class="blob-glyph" id="modalGlyph"></span></div>
+      <div style="flex:1; font-weight:700;" id="modalName"></div>
+      <button class="btn btn-icon btn-secondary" aria-label="Shuffle nickname" id="shuffleNicknameBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+      </button>
+    </div>
+    <div class="aura-grid-sm" id="modalAuraGrid">
+      <div class="aura-swatch-sm blob-1" data-aura="1"></div>
+      <div class="aura-swatch-sm blob-2" data-aura="2"></div>
+      <div class="aura-swatch-sm blob-3" data-aura="3"></div>
+      <div class="aura-swatch-sm blob-4" data-aura="4"></div>
+      <div class="aura-swatch-sm blob-5" data-aura="5"></div>
+      <div class="aura-swatch-sm blob-6" data-aura="6"></div>
+    </div>
+    <p class="body-sm" style="margin:var(--sp-5) 0;">Changing your nickname or color mid-conversation might confuse an active match.</p>
+    <div style="display:flex; gap:var(--sp-3);">
+      <button class="btn btn-secondary btn-block" onclick="closeModal('editIdentityModal')">Cancel</button>
+      <button class="btn btn-primary btn-block" id="saveIdentityBtn">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="addPromptModal">
+  <div class="modal">
+    <h3 class="display-3" style="font-size:1.3rem; margin-bottom:var(--sp-5);">Add a prompt</h3>
+    <div class="field">
+      <label for="promptQuestionSelect">Prompt</label>
+      <select class="input" id="promptQuestionSelect">
+        <option>A perfect Saturday looks like</option>
+        <option>I'm weirdly competitive about</option>
+        <option>The way to my attention is</option>
+        <option>A rule I break on purpose</option>
+        <option>My love language, roughly</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="promptAnswerInput">Your answer</label>
+      <textarea class="textarea" id="promptAnswerInput" maxlength="300"></textarea>
+    </div>
+    <div style="display:flex; gap:var(--sp-3);">
+      <button class="btn btn-secondary btn-block" onclick="closeModal('addPromptModal')">Cancel</button>
+      <button class="btn btn-primary btn-block" id="savePromptBtn">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="quizModal">
+  <div class="modal" style="max-width:520px;">
+    <h3 class="display-3" style="font-size:1.3rem; margin-bottom:var(--sp-5);">Retake the compatibility quiz</h3>
+    <div class="quiz-q" style="margin-bottom:var(--sp-5);">
+      <span class="body-sm" style="font-weight:700; display:block; margin-bottom:8px;">A free Saturday, no plans. You're...</span>
+      <div class="choice-grid" data-quiz="q1">
+        <div class="choice" data-value="out"><div class="choice-title">Out the door</div></div>
+        <div class="choice" data-value="project"><div class="choice-title">Deep in a project</div></div>
+        <div class="choice" data-value="company"><div class="choice-title">With good company</div></div>
+        <div class="choice" data-value="recovering"><div class="choice-title">Recovering</div></div>
+      </div>
+    </div>
+    <div class="quiz-q" style="margin-bottom:var(--sp-5);">
+      <span class="body-sm" style="font-weight:700; display:block; margin-bottom:8px;">When you disagree with someone, you'd rather...</span>
+      <div class="choice-grid" data-quiz="q2">
+        <div class="choice" data-value="direct"><div class="choice-title">Say it straight away</div></div>
+        <div class="choice" data-value="reflect"><div class="choice-title">Sit with it first</div></div>
+        <div class="choice" data-value="questions"><div class="choice-title">Ask questions</div></div>
+        <div class="choice" data-value="letgo"><div class="choice-title">Let it go</div></div>
+      </div>
+    </div>
+    <div class="quiz-q" style="margin-bottom:var(--sp-5);">
+      <span class="body-sm" style="font-weight:700; display:block; margin-bottom:8px;">Pick the closer one</span>
+      <div class="choice-grid" data-quiz="q3">
+        <div class="choice" data-value="structured"><div class="choice-title">Plans should be made</div></div>
+        <div class="choice" data-value="loose"><div class="choice-title">Plans should be loose</div></div>
+      </div>
+    </div>
+    <div class="quiz-q" style="margin-bottom:var(--sp-5);">
+      <span class="body-sm" style="font-weight:700; display:block; margin-bottom:8px;">You recharge best with</span>
+      <div class="choice-grid" data-quiz="q4">
+        <div class="choice" data-value="alone"><div class="choice-title">Time alone</div></div>
+        <div class="choice" data-value="people"><div class="choice-title">Time with people</div></div>
+        <div class="choice" data-value="mix"><div class="choice-title">A mix</div></div>
+      </div>
+    </div>
+    <div style="display:flex; gap:var(--sp-3);">
+      <button class="btn btn-secondary btn-block" onclick="closeModal('quizModal')">Cancel</button>
+      <button class="btn btn-primary btn-block" id="saveQuizBtn">Save answers</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/api.js"></script>
+<script>
+  let profile = null;
+  let modalAura = 1;
+  let modalNickname = '';
+  const adjectives = ['Quiet', 'Bold', 'Solar', 'Curious', 'Steady', 'Wandering', 'Wry', 'Restless', 'Gentle', 'Sunny', 'Salty', 'Soft-spoken'];
+  const nouns = ['Marigold', 'Static', 'Whistle', 'Harbor', 'Ember', 'Compass', 'Echo', 'Comet', 'Lagoon', 'Ridge', 'Tide', 'Fable'];
+
+  document.querySelectorAll('.choice-grid').forEach((group) => {
+    group.addEventListener('click', (e) => {
+      const chosen = e.target.closest('.choice');
+      if (!chosen) return;
+      group.querySelectorAll('.choice').forEach((c) => c.classList.remove('is-selected'));
+      chosen.classList.add('is-selected');
+    });
+  });
+
+  function renderHeader() {
+    document.getElementById('headBlob').className = 'blob blob-xl ' + Veilo.auraClass(profile.auraId);
+    document.getElementById('headGlyph').textContent = Veilo.initialsOf(profile.nickname);
+    document.getElementById('headName').textContent = profile.nickname;
+    document.getElementById('bioInput').value = profile.bio || '';
+  }
+
+  function renderInterests() {
+    const wrap = document.getElementById('interestWrap');
+    wrap.innerHTML = '';
+    (profile.interests || []).forEach((interest) => {
+      const chip = document.createElement('span');
+      chip.className = 'chip is-selected removable';
+      chip.textContent = interest;
+      chip.title = 'Click to remove';
+      chip.addEventListener('click', async () => {
+        profile.interests = profile.interests.filter((i) => i !== interest);
+        await Veilo.apiFetch('/users/me', { method: 'PATCH', body: { interests: profile.interests } });
+        renderInterests();
+      });
+      wrap.appendChild(chip);
+    });
+    const addChip = document.createElement('span');
+    addChip.className = 'chip';
+    addChip.textContent = '+ Add';
+    addChip.addEventListener('click', async () => {
+      const value = window.prompt('Add an interest (a few words):');
+      if (!value || !value.trim()) return;
+      profile.interests = [...(profile.interests || []), value.trim()].slice(0, 12);
+      await Veilo.apiFetch('/users/me', { method: 'PATCH', body: { interests: profile.interests } });
+      renderInterests();
+    });
+    wrap.appendChild(addChip);
+  }
+
+  function renderPrompts() {
+    const list = document.getElementById('promptsList');
+    list.innerHTML = (profile.prompts || [])
+      .map(
+        (p, i) => `
+      <div class="card prompt-card">
+        <button class="remove-prompt" data-index="${i}" aria-label="Remove prompt">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+        <div class="q">${Veilo.escapeHtml(p.question)}</div>
+        <p class="body">${Veilo.escapeHtml(p.answer)}</p>
+      </div>`
+      )
+      .join('');
+
+    list.querySelectorAll('.remove-prompt').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const idx = Number(btn.dataset.index);
+        profile.prompts = profile.prompts.filter((_, i) => i !== idx);
+        await Veilo.apiFetch('/users/me', { method: 'PATCH', body: { prompts: profile.prompts } });
+        renderPrompts();
+      });
+    });
+  }
+
+  async function loadStats() {
+    try {
+      const data = await Veilo.apiFetch('/match');
+      document.getElementById('statMatches').textContent = data.matches.length;
+      const scores = data.matches.map((m) => m.resonanceScore || 0);
+      document.getElementById('statBest').textContent = scores.length ? Math.max(...scores) + '%' : '—';
+    } catch (err) {
+      console.error(err);
+    }
+    const days = Math.max(0, Math.floor((Date.now() - new Date(profile.createdAt).getTime()) / (24 * 3600 * 1000)));
+    document.getElementById('statDays').textContent = days;
+  }
+
+  async function loadShareInfo() {
+    try {
+      const data = await Veilo.apiFetch('/profile/me/share');
+      document.getElementById('shareQr').src = data.qrDataUrl;
+      document.getElementById('shareLinkInput').value = data.link;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  document.getElementById('copyLinkBtn').addEventListener('click', async () => {
+    const input = document.getElementById('shareLinkInput');
+    input.select();
+    try {
+      await navigator.clipboard.writeText(input.value);
+      const btn = document.getElementById('copyLinkBtn');
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => (btn.textContent = original), 1500);
+    } catch (err) {
+      /* clipboard API unavailable — the input is still selected for manual copy */
+    }
+  });
+
+  document.getElementById('regenCodeBtn').addEventListener('click', async () => {
+    if (!confirm('Any link or QR you already shared will stop working. Continue?')) return;
+    try {
+      await Veilo.apiFetch('/profile/me/regenerate-code', { method: 'POST' });
+      await loadShareInfo();
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+  document.getElementById('saveBioBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('saveBioBtn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+    try {
+      await Veilo.apiFetch('/users/me', { method: 'PATCH', body: { bio: document.getElementById('bioInput').value } });
+      btn.textContent = 'Saved';
+    } catch (err) {
+      btn.textContent = 'Save about';
+      alert(err.message);
+    }
+    setTimeout(() => { btn.disabled = false; btn.textContent = 'Save about'; }, 1200);
+  });
+
+  document.getElementById('addPromptBtn').addEventListener('click', () => openModal('addPromptModal'));
+  document.getElementById('savePromptBtn').addEventListener('click', async () => {
+    const question = document.getElementById('promptQuestionSelect').value;
+    const answer = document.getElementById('promptAnswerInput').value.trim();
+    if (!answer) return;
+    profile.prompts = [...(profile.prompts || []), { question, answer }].slice(-5);
+    try {
+      await Veilo.apiFetch('/users/me', { method: 'PATCH', body: { prompts: profile.prompts } });
+      renderPrompts();
+      document.getElementById('promptAnswerInput').value = '';
+      closeModal('addPromptModal');
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+  function openIdentityModal() {
+    modalAura = profile.auraId;
+    modalNickname = profile.nickname;
+    paintModalIdentity();
+  }
+  function paintModalIdentity() {
+    document.getElementById('modalBlob').className = 'blob blob-lg ' + Veilo.auraClass(modalAura);
+    document.getElementById('modalGlyph').textContent = Veilo.initialsOf(modalNickname);
+    document.getElementById('modalName').textContent = modalNickname;
+    document.querySelectorAll('.aura-swatch-sm').forEach((s) => s.classList.toggle('is-selected', Number(s.dataset.aura) === modalAura));
+  }
+  document.querySelectorAll('.aura-swatch-sm').forEach((s) => {
+    s.addEventListener('click', () => { modalAura = Number(s.dataset.aura); paintModalIdentity(); });
+  });
+  document.getElementById('shuffleNicknameBtn').addEventListener('click', () => {
+    modalNickname = adjectives[Math.floor(Math.random() * adjectives.length)] + ' ' + nouns[Math.floor(Math.random() * nouns.length)];
+    paintModalIdentity();
+  });
+  document.getElementById('saveIdentityBtn').addEventListener('click', async () => {
+    try {
+      const result = await Veilo.apiFetch('/users/me/identity', { method: 'PATCH', body: { nickname: modalNickname, auraId: modalAura } });
+      profile.nickname = result.nickname;
+      profile.auraId = result.auraId;
+      renderHeader();
+      Veilo.paintIdentityChrome({ nickname: profile.nickname, auraId: profile.auraId });
+      closeModal('editIdentityModal');
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+  document.getElementById('saveQuizBtn').addEventListener('click', async () => {
+    const selected = (q) => {
+      const el = document.querySelector(`[data-quiz="${q}"] .choice.is-selected`);
+      return el ? el.dataset.value : null;
+    };
+    const quizAnswers = { q1: selected('q1'), q2: selected('q2'), q3: selected('q3'), q4: selected('q4') };
+    if (!quizAnswers.q1 || !quizAnswers.q2 || !quizAnswers.q3 || !quizAnswers.q4) {
+      return alert('Answer all four to save.');
+    }
+    try {
+      await Veilo.apiFetch('/users/me/quiz', { method: 'PATCH', body: { quizAnswers } });
+      document.getElementById('quizStatus').textContent = 'Updated just now';
+      closeModal('quizModal');
+    } catch (err) {
+      alert(err.message);
+    }
+  });
+
+  document.querySelector('[onclick*="editIdentityModal"]').addEventListener('click', openIdentityModal);
+
+  (async () => {
+    const user = await Veilo.requireSession();
+    if (!user) return;
+    document.getElementById('logoutLink').addEventListener('click', (e) => { e.preventDefault(); Veilo.logout(); });
+
+    profile = await Veilo.apiFetch('/users/me');
+    renderHeader();
+    renderInterests();
+    renderPrompts();
+    document.getElementById('quizStatus').textContent = profile.quizAnswers && profile.quizAnswers.q1 ? 'Answered' : 'Not answered yet';
+    loadStats();
+    loadShareInfo();
+  })();
+</script>
+</body>
+</html>

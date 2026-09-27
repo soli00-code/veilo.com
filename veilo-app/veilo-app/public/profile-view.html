@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile — Veilo</title>
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  .wrap { max-width: 480px; margin: 0 auto; padding: var(--sp-6) var(--sp-5) var(--sp-9); }
+  .top { display: flex; align-items: center; gap: 8px; padding: var(--sp-4) 0 var(--sp-6); }
+  .top span { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; }
+  .view-card { text-align: center; padding: var(--sp-8) var(--sp-6); }
+  .view-card .blob-xl { margin: 0 auto var(--sp-5); }
+  .match-meta { display: flex; align-items: center; justify-content: center; gap: var(--sp-3); margin: var(--sp-4) 0 var(--sp-6); flex-wrap: wrap; }
+  .highlight-row { display: flex; gap: var(--sp-3); flex-wrap: wrap; justify-content: center; margin-bottom: var(--sp-6); }
+  .bio-text { text-align: left; background: var(--paper-raised); border: 2px solid var(--line); border-radius: var(--r-md); padding: var(--sp-4); margin-bottom: var(--sp-6); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="ringGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7A3DF5"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs></svg>
+<div class="wrap">
+  <a href="/home.html" class="top"><svg width="28" height="28" viewBox="0 0 34 34"><defs><linearGradient id="bgpv" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7A3DF5"/><stop offset="1" stop-color="#FF3E7C"/></linearGradient></defs><path d="M17 2c8 0 15 6 15 14s-6 16-15 16S2 24 2 16 9 2 17 2Z" fill="url(#bgpv)"/></svg><span>Veilo</span></a>
+
+  <div id="content">
+    <div class="card view-card"><p class="body">Loading profile…</p></div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+<script src="/js/api.js"></script>
+<script>
+  function codeFromUrl() {
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    return parts[parts.length - 1];
+  }
+
+  function renderSelf() {
+    document.getElementById('content').innerHTML = `
+      <div class="card view-card">
+        <h2 class="display-3">This is your own link</h2>
+        <p class="body-lg" style="margin:var(--sp-4) auto var(--sp-6);">Share it from your Profile page instead — anyone who opens it while logged in will be able to start a conversation with you directly.</p>
+        <a href="/profile.html" class="btn btn-primary">Go to your profile</a>
+      </div>`;
+  }
+
+  function renderUnavailable(message) {
+    document.getElementById('content').innerHTML = `
+      <div class="card view-card">
+        <h2 class="display-3">Not available</h2>
+        <p class="body-lg" style="margin:var(--sp-4) auto var(--sp-6);">${Veilo.escapeHtml(message)}</p>
+        <a href="/home.html" class="btn btn-secondary">Back to Veilo</a>
+      </div>`;
+  }
+
+  function renderProfile(code, data) {
+    const highlights = (data.interests || []).slice(0, 4);
+    const buttonHtml =
+      data.existingMatch && data.existingMatch.status === 'active'
+        ? `<a href="/chat.html?match=${data.existingMatch.matchId}" class="btn btn-primary">Continue chatting</a>`
+        : data.existingMatch
+        ? `<p class="body-sm">This conversation has already ended.</p>`
+        : `<button class="btn btn-primary" id="connectBtn">Start chatting</button>`;
+
+    document.getElementById('content').innerHTML = `
+      <div class="card view-card">
+        <div class="blob blob-xl ${Veilo.auraClass(data.auraId)}"><span class="blob-glyph">${Veilo.initialsOf(data.nickname)}</span></div>
+        <h2 class="display-2">${Veilo.escapeHtml(data.nickname)}</h2>
+        <div class="match-meta">
+          <div class="compat-ring" style="width:52px;height:52px;">
+            <svg viewBox="0 0 84 84"><circle class="track" cx="42" cy="42" r="36"/><circle class="fill" cx="42" cy="42" r="36" stroke-dasharray="226" stroke-dashoffset="${Math.round(226 * (1 - data.resonanceScore / 100))}"/></svg>
+            <div class="num" style="font-size:0.8rem;">${data.resonanceScore}%</div>
+          </div>
+          <span class="body-sm" style="text-align:left;">resonance score<br>based on your answers</span>
+        </div>
+        ${data.bio ? `<div class="bio-text body">${Veilo.escapeHtml(data.bio)}</div>` : ''}
+        <div class="highlight-row">${highlights.map((i) => `<span class="chip chip-static">${Veilo.escapeHtml(i)}</span>`).join('')}</div>
+        ${buttonHtml}
+      </div>`;
+
+    const connectBtn = document.getElementById('connectBtn');
+    if (connectBtn) {
+      connectBtn.addEventListener('click', async () => {
+        connectBtn.disabled = true;
+        connectBtn.textContent = 'Connecting…';
+        try {
+          const result = await Veilo.apiFetch(`/profile/by-code/${code}/connect`, { method: 'POST' });
+          window.location.href = '/chat.html?match=' + result.matchId;
+        } catch (err) {
+          renderUnavailable(err.message);
+        }
+      });
+    }
+  }
+
+  (async () => {
+    const user = await Veilo.requireSession();
+    if (!user) return;
+
+    const code = codeFromUrl();
+    try {
+      const data = await Veilo.apiFetch(`/profile/by-code/${code}`);
+      if (data.isSelf) renderSelf();
+      else renderProfile(code, data);
+    } catch (err) {
+      renderUnavailable(err.message);
+    }
+  })();
+</script>
+</body>
+</html>
